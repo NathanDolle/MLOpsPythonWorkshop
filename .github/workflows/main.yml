@@ -9,12 +9,12 @@ env:
   PNPM_VERSION: 8.5.1
   PYTHON_VERSION: 3.10.13
   NODE_VERSION: 18
-  AZURE_RESOURCE_GROUP_NAME: "azure-ml-nathanDolle"
+  AZURE_RESOURCE_GROUP_NAME: "azure-ml-nathanDolled"
   AZURE_LOCATION: "northeurope"
-  AZURE_ML_WORKSPACE_NAME: "cats-dogs-nathanDolle"
-  AZURE_WEBAPP_NAME: "cats-dogs-nathanDolle"
+  AZURE_ML_WORKSPACE_NAME: "cats-dogs-nathanDolled"
+  AZURE_WEBAPP_NAME: "cats-dogs-nathanDolled"
   DELETE_WEBAPP: "true"
-  DOCKER_IMAGE_NAME: "robertcarry/mlopspython-nathanDolle"
+  DOCKER_IMAGE_NAME: "nathandolle/mlopspython-nathanDolled"
 
 permissions:
   id-token: write

@@ -147,7 +147,7 @@ jobs:
       EXPERIMENT_ID: ${{ steps.train.outputs.EXPERIMENT_ID }}
       AZURE_RESOURCE_GROUP_NAME: ${{ env.AZURE_RESOURCE_GROUP_NAME }}
       AZURE_ML_WORKSPACE_NAME: ${{ env.AZURE_ML_WORKSPACE_NAME }}
-      DOCKER_IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
+      DOCKER_API_IMAGE_NAME: ${{ env.DOCKER_API_IMAGE_NAME }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -249,9 +249,9 @@ jobs:
           asset_content_type: application/zip
   build_docker:
     needs: [train, tags]
-    uses: ./.github/workflows/docker.yml
+    uses: ./.github/workflows/docker_with_model.yml
     with:
-      image_name: ${{ needs.train.outputs.DOCKER_IMAGE_NAME }}
+      image_name: ${{ needs.train.outputs.DOCKER_API_IMAGE_NAME }}
       image_version: ${{ needs.tags.outputs.new_version }}
       image_build_args: ""
       image_context: ./production/api
@@ -266,7 +266,7 @@ jobs:
   deploy:
     environment: MLOpsPython
     runs-on: ubuntu-latest
-    needs: [tags, build_docker]
+    needs: [tags, build_docker_api, build_docker_webapp]
     steps:
       - name: azure login
         uses: azure/login@v1
@@ -313,8 +313,11 @@ jobs:
           if [ "${{ env.DELETE_WEBAPP }}" = "true" ]; then
             az container delete --resource-group ${{ env.AZURE_RESOURCE_GROUP_NAME}} --name ${{ env.AZURE_WEBAPP_NAME }} --yes
           fi
-  webapp:
+  webapp_unit_tests:
     runs-on: ubuntu-latest
+    environment: MLOpsPython
+    outputs:
+      DOCKER_WEBAPP_IMAGE_NAME: ${{ env.DOCKER_WEBAPP_IMAGE_NAME }}
     steps:
       - uses: actions/checkout@v3
       - uses: dorny/paths-filter@v2
@@ -343,6 +346,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          token: ${{ secrets.GIT_TOKEN }}
           fetch-depth: 0
       - name: Commit and push
         if: github.ref == 'refs/heads/main'

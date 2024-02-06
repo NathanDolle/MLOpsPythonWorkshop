@@ -33,7 +33,7 @@ Use Postman to call the API with HTTP POST:
 
 You can also check health check route with HTTP GET:
 
-http://cats-dogs-yolo.northeurope.azurecontainer.io:5000/health
+http://cats-dogs-yolw.northeurope.azurecontainer.io:5000/health
 
 ## 3. Initialize your own project
 
@@ -129,7 +129,10 @@ This will trigger the GitHub Action.
 
 Follow "Get Started" section to run the project on your laptop :
 
-https://github.com/your-github-login/MLOpsPython
+https://github.com/your-github-login/MLOpsPythonWorkshop
+
+Run the web interface and the API from docker-compose, then you can play with it.
+
 
 - Pdfs dataset: https://github.com/guillaume-chervet/dataset-cats-dogs-others
 - Drift dataset: https://github.com/guillaume-chervet/dataset-cats-dogs-others-drift
